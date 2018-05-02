@@ -13,12 +13,13 @@ public class SerialInputManager : MonoBehaviour {
         GameObject obj = new GameObject(objname);
         SerialInputManager im = obj.AddComponent<SerialInputManager>();
         im.port = port;
+
         return im;
     }
 
     // on osx - ls /dev/cu* and choose usb modem
 	void Start () {
-        this.serial = new SerialPort("/dev/cu.usbmodem1421");
+        this.serial = new SerialPort(this.port);
         this.serial.RtsEnable = true;
         this.serial.BaudRate = 9600;
         this.serial.ReadTimeout = 1;

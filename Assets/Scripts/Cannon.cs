@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-
 public struct ProjectileInfo {
     public GameObject projectile;
     public float timeCreated;

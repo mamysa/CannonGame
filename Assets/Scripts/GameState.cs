@@ -8,7 +8,7 @@ public class GameState: MonoBehaviour {
     private GameObject[] players;
     public Text GameOverText;
     private int activePlayer = 0;
-
+    private SerialInputManager manager;
 
 	// Use this for initialization
 	void Start () {
@@ -20,6 +20,8 @@ public class GameState: MonoBehaviour {
 
         this.players[0].SendMessage("SetStatus", true);
         this.players[1].SendMessage("SetStatus", false);
+
+        this.manager = SerialInputManager.Construct("InputMan","/dev/cu.usbmodem1421");
 	}
 
 	
