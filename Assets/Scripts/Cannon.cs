@@ -34,7 +34,7 @@ public class Cannon: MonoBehaviour {
 
 
     private float projectileLifetime = 10.0f;
-
+    public SerialInputManager inputManager;
 
     private Queue<ProjectileInfo> projectiles;
 
