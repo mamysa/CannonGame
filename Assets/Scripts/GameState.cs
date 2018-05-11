@@ -21,9 +21,9 @@ public class GameState: MonoBehaviour {
         this.players[0].SendMessage("SetStatus", true);
         this.players[1].SendMessage("SetStatus", false);
 
-        this.manager = SerialInputManager.Construct("InputMan","/dev/cu.usbmodem1421");
-        this.players[0].GetComponent<Cannon>().inputManager = this.manager;
-        this.players[1].GetComponent<Cannon>().inputManager = this.manager;
+        //this.manager = SerialInputManager.Construct("InputMan","/dev/cu.usbmodem1421");
+        //this.players[0].GetComponent<Cannon>().inputManager = this.manager;
+        //this.players[1].GetComponent<Cannon>().inputManager = this.manager;
 	}
 
 	
@@ -31,6 +31,8 @@ public class GameState: MonoBehaviour {
 	void Update () {
         CheckGameOverCondition(this.players[0]);
         CheckGameOverCondition(this.players[1]);
+
+        SerialInputManager.WriteMessage(SendMessageType.Reset, 12);
 	}
 
     private IEnumerator OnProjectileFired(string name) {

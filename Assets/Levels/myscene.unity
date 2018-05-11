@@ -89,7 +89,8 @@ LightmapSettings:
     m_PVRFilteringAtrousPositionSigmaIndirect: 2
     m_PVRFilteringAtrousPositionSigmaAO: 1
     m_ShowResolutionOverlay: 1
-  m_LightingDataAsset: {fileID: 0}
+  m_LightingDataAsset: {fileID: 112000002, guid: 6d5d0b1047eed9a40843bf0693699df2,
+    type: 2}
   m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
@@ -410,6 +411,7 @@ MonoBehaviour:
   ProjectileLayer: 11
   Health: 100
   ScoreDisplay: {fileID: 1277161394}
+  inputManager: {fileID: 0}
 --- !u!23 &384481152
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -649,6 +651,7 @@ MonoBehaviour:
   ProjectileLayer: 10
   Health: 100
   ScoreDisplay: {fileID: 1972938428}
+  inputManager: {fileID: 0}
 --- !u!1 &808220630
 GameObject:
   m_ObjectHideFlags: 0
