@@ -7,18 +7,24 @@ int angle = 12;
 int force = 1687;
 void setup() {
 	Serial.begin(57600);
+  int iters = 0;
+  while (!Serial) {
+    iters ++;
+  }
 }
 
 void loop() {
   recv();
-  snd();
 }
 
 void snd() {
   Serial.print("Prm ");
   Serial.print(String(angle));
-  Serial.print(" ");
-  Serial.print(String(force));
+  Serial.print("\n");
+}
+
+void snd_ack() {
+  Serial.print("Ok");
   Serial.print("\n");
 }
 
@@ -36,9 +42,6 @@ void recv() {
 }
 
 void parseMsg() {
-  Serial.println(recvBuf);
-  Serial.println(recvBytes);
-  
   if (recvBuf[0] == 'P' && recvBuf[1] == '1') {
     
     char *header = strtok(recvBuf, " ");
@@ -52,8 +55,12 @@ void parseMsg() {
     Serial.println(p1);
     Serial.print("Param2 is: ");
     Serial.println(p2);
-    
-    
+  }
+  else if (recvBuf[0] == 'P' && recvBuf[1] == 'R' && recvBuf[2] == 'M') {
+    snd();
+  }
+  else if (recvBuf[0] == 'R' && recvBuf[1] == 'S') {
+    snd_ack();    
   }
   else {
     Serial.println("Unknown message");

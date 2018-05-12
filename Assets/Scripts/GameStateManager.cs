@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class GameStateManager : Singleton<GameStateManager>{
+public class GameStateManager : Singleton<GameStateManager> {
 
 	// Use this for initialization
 	void Start () {
@@ -12,7 +12,7 @@ public class GameStateManager : Singleton<GameStateManager>{
 	
 	// Update is called once per frame
 	void Update () {
-		Debug.Log("Update Gamestatemanager");
+		//Debug.Log("Update Gamestatemanager");
 	}
 
     public void doSoemthing(){
