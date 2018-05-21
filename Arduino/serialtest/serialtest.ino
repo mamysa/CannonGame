@@ -28,7 +28,8 @@ void hapticLoop()
   {
     hapkit->update();
 
-    hapkit->setForce(packet->force);
+    //hapkit->setForce(packet->force);
+    hapkit->setForce(-hapkit->getAcceleration() *0.5);
     packet->position = hapkit->getPosition();
     packet->velocity = hapkit->getVelocity();
     packet->acceleration = hapkit->getAcceleration();
@@ -41,23 +42,28 @@ void hapticLoop()
 void setup()
 {
 	Serial.begin(BAUD_RATE2);
- send_timer.initialize(100000);
-  send_timer.attachInterrupt(snd);
- #if 0
+  
+ 
   hapkit = new Hapkit(HAPKIT_YELLOW, 2, A2);
   hapkit->setUpdateRate(300.0); // 500 Hz
+
+
+  
 
   timer_tck.initialize(1000000 / hapkit->getUpdateRate());
   timer_tck.attachInterrupt(hapticLoop);
 
+  //send_timer.initialize(1000000);
+  //send_timer.attachInterrupt(snd);
+
   
 
   hapkit->calibrate();
-  #endif
-  packet->force = 1.2224421412141242131231f;
-  packet->position = 12.242422141412412412421f;
-  packet->velocity = 1.121242142174124210242;
-  packet->acceleration = 1337.1337f;
+  
+  packet->force = 0.01f;
+  packet->position = 0.0f;
+  packet->velocity = 0.0f;
+  packet->acceleration = 0.0;
 
 }
 
@@ -75,25 +81,21 @@ void serialEvent() {
 
 void loop() {
   // recv();
+  snd();
+  delay(200);
  if (string_complete) {
    parseMsg();
  }
- 
- 
-
-
 }
 
 
 void snd() {
   Serial.print("Prm ");
-  Serial.print(packet->force, 5);
- #if 0
+  Serial.print(packet->position, 5);
   Serial.print(" ");
   Serial.print(packet->velocity, 5);
   Serial.print(" ");
   Serial.print(packet->acceleration, 5);
-  #endif
   Serial.print("\n");
 }
 
