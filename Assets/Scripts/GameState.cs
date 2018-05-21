@@ -31,7 +31,7 @@ public class GameState: MonoBehaviour {
 	void Update () {
         CheckGameOverCondition(this.players[0]);
         CheckGameOverCondition(this.players[1]);
-        SerialInputManager.WriteMessage(SendMessageType.Params);
+        //SerialInputManager.WriteMessage(SendMessageType.Params);
 	}
 
     private IEnumerator OnProjectileFired(string name) {

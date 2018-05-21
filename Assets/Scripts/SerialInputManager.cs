@@ -50,18 +50,23 @@ public class SerialInputManager : Singleton<SerialInputManager> {
 
     // on osx - ls /dev/cu* and choose usb modem
 	void Start () {
+        WriteMessage(SendMessageType.Params, 11.1212421421f);
         this.port = "/dev/cu.usbmodem1421";
         this.serial = new SerialPort(this.port);
         this.serial.RtsEnable = true;
+        //this.serial.BaudRate = 2000000; 
         this.serial.BaudRate = 57600; 
         this.serial.ReadTimeout = 1000;
+        this.serial.ReadBufferSize =  2 * 1024 * 1024; 
+        this.serial.WriteBufferSize =  2 * 1024 * 1024; 
         this.serial.Open();
         Debug.Assert(this.serial.IsOpen);
-        WriteMessage(SendMessageType.Reset);
+        //WriteMessage(SendMessageType.Reset);
 	}
 	
 	// Update is called once per frame
 	void Update () {
+        Debug.Log(this.serial.BaudRate);
         try {
             string msg = this.readIncomingMessage();
             if (msg != null) {
@@ -82,10 +87,13 @@ public class SerialInputManager : Singleton<SerialInputManager> {
 	}
 
     private string readIncomingMessage()  {
+        //Debug.Log(this.recvBuf.Count);
+        //Debug.Log(this.serial.BytesToRead);
         while (this.serial.BytesToRead > 0) {
             int chr = this.serial.ReadByte();
             byte by = Convert.ToByte(chr);
             if (by == '\n') {
+            //if (this.recvBuf.Count > 10) {
                 string msg = System.Text.Encoding.Default.GetString(this.recvBuf.ToArray());
                 this.recvBuf.Clear();
                 return msg;
@@ -97,11 +105,10 @@ public class SerialInputManager : Singleton<SerialInputManager> {
 
             
     private void processIncomingMessage(string msg) {
+        Debug.Log(msg);
         if (msg.StartsWith(RecvMessageType.Prm.ToString())) {
             Debug.Log("Params: " + msg);
             this.timer = 0.0f;
-            this.msgQueue.Dequeue();
-            this.SendNextMessageInQueue();
         }
         else if (msg.StartsWith(RecvMessageType.Ok.ToString())) {
             Debug.Log("Ack");
@@ -126,12 +133,13 @@ public class SerialInputManager : Singleton<SerialInputManager> {
         this.msgQueue.Enqueue(message);
     }
 
-    public static void WriteMessage(SendMessageType type, params object[] param) {
+    public static void WriteMessage(SendMessageType type, params float[] param) {
+        string flt = String.Format("{0:0.#####}", param[0] );
         string str = null;
-        if (type == SendMessageType.Params)   { str = String.Format("{0}\n", type.ToString()); }
-        if (type == SendMessageType.Reset)  { str = String.Format("{0}\n", type.ToString()); }
-        if (type == SendMessageType.Param1) { str = String.Format("{0} {1}\n", type.ToString(), param[0]); }
-        if (type == SendMessageType.Param2) { str = String.Format("{0} {1} {2}\n", type.ToString(), param[0], param[1]); }
+        if (type == SendMessageType.Params)   { str = String.Format("{0} {1}\n", type.ToString(),flt); }
+        //if (type == SendMessageType.Reset)  { str = String.Format("{0}\n", type.ToString()); }
+        //if (type == SendMessageType.Param1) { str = String.Format("{0} {1}\n", type.ToString(), param[0]); }
+        //if (type == SendMessageType.Param2) { str = String.Format("{0} {1} {2}\n", type.ToString(), param[0], param[1]); }
         byte[] msg = System.Text.Encoding.ASCII.GetBytes(str);
         Instance.AddToWriteQueue(msg);
     }
