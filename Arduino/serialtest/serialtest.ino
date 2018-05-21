@@ -5,7 +5,6 @@
 
 struct Packet
 {
-  int angle;
   float force;
   float position;
   float velocity;
@@ -45,7 +44,9 @@ void setup()
   }
   hapkit = new Hapkit(HAPKIT_YELLOW, 2, A2);
 
-  timer_tck.initialize(1000000 / 500); // 500 Hz
+  hapkit->setUpdateRate(500.0); // 500 Hz
+
+  timer_tck.initialize(1000000 / hapkit->getUpdateRate());
   timer_tck.attachInterrupt(hapticLoop);
 
   hapkit->calibrate();
