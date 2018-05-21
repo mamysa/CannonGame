@@ -79,11 +79,11 @@ void loop() {
 
 void snd() {
   Serial.print("Prm ");
-  Serial.print(String(packet->position));
+  Serial.print(packet->position, 5);
   Serial.print(" ");
-  Serial.print(String(packet->velocity));
+  Serial.print(packet->velocity, 5);
   Serial.print(" ");
-  Serial.print(String(packet->acceleration));
+  Serial.print(packet->acceleration, 5);
   Serial.print("\n");
 }
 
