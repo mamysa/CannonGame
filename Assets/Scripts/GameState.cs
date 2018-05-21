@@ -21,6 +21,7 @@ public class GameState: MonoBehaviour {
         this.players[0].SendMessage("SetStatus", true);
         this.players[1].SendMessage("SetStatus", false);
 
+        SerialInputManager.WriteMessage(SendMessageType.Param1, 52.241412412f);
         //this.manager = SerialInputManager.Construct("InputMan","/dev/cu.usbmodem1421");
         //this.players[0].GetComponent<Cannon>().inputManager = this.manager;
         //this.players[1].GetComponent<Cannon>().inputManager = this.manager;
@@ -31,6 +32,7 @@ public class GameState: MonoBehaviour {
 	void Update () {
         CheckGameOverCondition(this.players[0]);
         CheckGameOverCondition(this.players[1]);
+        //SerialInputManager.WriteMessage(SendMessageType.Param1, 52.241412412f);
         //SerialInputManager.WriteMessage(SendMessageType.Params);
 	}
 
